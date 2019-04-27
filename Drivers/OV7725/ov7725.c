@@ -1,8 +1,8 @@
 #include "ov7725.h"
 
 #define OV7725_CTL_PORT     GPIOC
-#define OV7725_SDA          1//3
-#define OV7725_SCL          0//2
+#define OV7725_SDA          3
+#define OV7725_SCL          2
 
 uint8_t ov7725_data[2][OV7725_DATASIZE];
 bool ov7725_img_valid = false;
@@ -59,7 +59,7 @@ static const OV7725_REG_TYPE OV7725_INIT_REG[] =
   {OV7725_BDMStep      , 0x03},
   {OV7725_SDE          , 0x04},
   {OV7725_BRIGHT       , 0x00},
-  {OV7725_CNST         , 15},
+  {OV7725_CNST         , 17},
   {OV7725_SIGN         , 0x06},
   {OV7725_UVADJ0       , 0x11},
   {OV7725_UVADJ1       , 0x02},
@@ -280,7 +280,7 @@ static void VSYNC_GPIO_Config(void)
     EXTI_GenerateSWInterrupt(EXTI_Line0);	/*中断挂到 EXTI_Line0  线*/		
 	/*配置优先级*/
     NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);

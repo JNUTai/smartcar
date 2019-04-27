@@ -22,6 +22,8 @@
   * @param  无
   * @retval 无
   */
+	
+extern  uint32_t speed;
 void Debug_USART_Config(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
@@ -62,16 +64,16 @@ void Debug_USART_Config(void)
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(DEBUG_USART, &USART_InitStructure); 
   
-  NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
   NVIC_Init(&NVIC_InitStructure);
   
   USART_ITConfig(DEBUG_USART,USART_IT_RXNE,ENABLE);
+  
   USART_Cmd(DEBUG_USART, ENABLE);
 }
-extern  uint32_t speed;
 
 void USART1_IRQHandler(void)
 {
@@ -81,7 +83,7 @@ void USART1_IRQHandler(void)
         s = USART_ReceiveData(DEBUG_USART);
         switch(s)
         {
-            case 0:      TIM_SetCompare1(TIM3,0);break;
+            case 0:/*TIM_Cmd(TIM3, DISABLE)*/TIM_SetCompare1(TIM3,1500);break;
             case 1:
             case 2:
             case 3:
@@ -89,12 +91,14 @@ void USART1_IRQHandler(void)
             case 5:
             case 6:
             case 7:
-            case 8:      TIM_SetCompare1(TIM3,speed);break;
+            case 8:/*TIM_Cmd(TIM3, ENABLE)*/TIM_SetCompare1(TIM3,speed);break;
             default:break;
         }
         USART_ClearITPendingBit(DEBUG_USART, USART_IT_RXNE);
     }
 }
+
+
 
 ///重定向c库函数printf到串口DEBUG_USART，重定向后可使用printf函数
 int fputc(int ch, FILE *f)

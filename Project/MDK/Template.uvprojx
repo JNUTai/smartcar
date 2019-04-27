@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40XX</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Boot\CoreSupport;..\..\Boot\DeviceSupport;..\..\Libraries\inc;..\User;..\..\Drivers\include;..\User\usart;..\User\PWM;..\User\systick</IncludePath>
+              <IncludePath>..\..\Boot\CoreSupport;..\..\Boot\DeviceSupport;..\..\Libraries\inc;..\User;..\..\Drivers\include;..\User\usart;..\User\PWM;..\User\systick;..\User\KEY;..\..\System\delay;..\..\System\sys;..\..\System\usart</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -686,6 +686,11 @@
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\PWM\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\KEY\key.c</FilePath>
             </File>
           </Files>
         </Group>
