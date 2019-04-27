@@ -35,7 +35,7 @@ void TIM3_PWM_Init(u32 arr,u32 psc)
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //选择定时器模式:TIM脉冲宽度调制模式2
  	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; //输出极性:TIM输出比较极性高
-	TIM_OCInitStructure.TIM_Pulse =60;
+	TIM_OCInitStructure.TIM_Pulse =arr/2;
   
 	TIM_OC1Init(TIM3, &TIM_OCInitStructure);  //根据T指定的参数初始化外设TIM3 OC1
 
@@ -69,9 +69,9 @@ void TIM4_PWM_Init(u32 pwm)
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        //上拉
 	GPIO_Init(GPIOD,&GPIO_InitStructure);              //初始化PF9
 	  
-	TIM_TimeBaseStructure.TIM_Prescaler=839;  //定时器分频
+	TIM_TimeBaseStructure.TIM_Prescaler=83;  //定时器分频
 	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
-	TIM_TimeBaseStructure.TIM_Period=1999;   //自动重装载值
+	TIM_TimeBaseStructure.TIM_Period=19999;   //自动重装载值
 	TIM_TimeBaseStructure.TIM_ClockDivision=0; 
 	
 	TIM_TimeBaseInit(TIM4,&TIM_TimeBaseStructure);//初始化定时器4
@@ -98,7 +98,10 @@ void TIM4_IRQHandler(void)
   static u32 stop;
   stop++;
   if(stop>500)
-  {TIM_Cmd(TIM4,DISABLE);stop=0;}
+  {
+		TIM_Cmd(TIM4,DISABLE);
+		stop=0;
+	}
   TIM_ClearITPendingBit(TIM4,TIM_IT_Update);
 }
 

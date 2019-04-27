@@ -71,7 +71,8 @@ void Debug_USART_Config(void)
   USART_ITConfig(DEBUG_USART,USART_IT_RXNE,ENABLE);
   USART_Cmd(DEBUG_USART, ENABLE);
 }
-extern uint32_t speed;
+extern  uint32_t speed;
+
 void USART1_IRQHandler(void)
 {
     char s;
@@ -80,7 +81,7 @@ void USART1_IRQHandler(void)
         s = USART_ReceiveData(DEBUG_USART);
         switch(s)
         {
-            case 0:TIM_SetCompare1(TIM3,0);;break;
+            case 0:      TIM_SetCompare1(TIM3,0);break;
             case 1:
             case 2:
             case 3:
@@ -88,7 +89,7 @@ void USART1_IRQHandler(void)
             case 5:
             case 6:
             case 7:
-            case 8:TIM_SetCompare1(TIM3,speed);;break;
+            case 8:      TIM_SetCompare1(TIM3,speed);break;
             default:break;
         }
         USART_ClearITPendingBit(DEBUG_USART, USART_IT_RXNE);
